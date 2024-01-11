@@ -2,10 +2,10 @@
 '''
 this module contains the sum_mixed_list function
 '''
-from typing import List, Tuple
+from typing import Iterable, Sequence, List, Tuple
 
 
-def element_length(lst: List[str]) -> List[Tuple[str, int]]:
+def element_length(lst: Iterable[Sequence]) -> List[Tuple[Sequence, int]]:
     '''
     function
     '''
