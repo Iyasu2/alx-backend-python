@@ -109,5 +109,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """Test that the list of repos with a specific license
         is what you expect from the chosen payload"""
         test_client = GithubOrgClient("org_name")
-        self.assertEqual(test_client.public_repos(license="apache-2.0"), self.apache2_repos)
+        self.assertEqual(
+                test_client.public_repos(license="apache-2.0"),
+                self.apache2_repos)
         self.mock_get.assert_called_once()
