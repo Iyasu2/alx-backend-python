@@ -60,3 +60,36 @@ class TestGithubOrgClient(unittest.TestCase):
         """Test that the has_license method returns the expected value"""
         test_client = GithubOrgClient("org_name")
         self.assertEqual(test_client.has_license(repo, license_key), expected)
+
+
+@parameterized_class(
+    [
+        {
+            "org_payload": fixtures.org_payload,
+            "repos_payload": fixtures.repos_payload,
+            "expected_repos": fixtures.expected_repos,
+            "apache2_repos": fixtures.apache2_repos
+        }
+    ]
+)
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        """Set up class method for TestIntegrationGithubOrgClient"""
+        cls.get_patcher = patch('requests.get')
+        cls.mock_get = cls.get_patcher.start()
+
+        def side_effect(url):
+            if url.endswith("/orgs/org"):
+                return Mock(json=lambda: cls.org_payload)
+            elif url.endswith("/orgs/org/repos"):
+                return Mock(json=lambda: cls.repos_payload)
+            else:
+                return Mock(json=lambda: [])
+
+        cls.mock_get.side_effect = side_effect
+
+    @classmethod
+    def tearDownClass(cls):
+        """Tear down class method for TestIntegrationGithubOrgClient"""
+        cls.get_patcher.stop()
