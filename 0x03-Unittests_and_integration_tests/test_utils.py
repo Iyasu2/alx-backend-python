@@ -63,6 +63,7 @@ class TestGetJson(unittest.TestCase):
             self.assertEqual(get_json(test_url), test_payload)
             req_get.assert_called_once_with(test_url)
 
+
 class TestMemoize(unittest.TestCase):
     '''
     Tests the `memoize` function
