@@ -74,6 +74,9 @@ class TestGithubOrgClient(unittest.TestCase):
     ]
 )
 class TestIntegrationGithubOrgClient(unittest.TestCase):
+    '''
+    this ia class
+    '''
     @classmethod
     def setUpClass(cls):
         """Set up class method for TestIntegrationGithubOrgClient"""
