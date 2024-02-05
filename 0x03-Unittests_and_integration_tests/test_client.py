@@ -2,7 +2,6 @@
 '''
 this is the module
 '''
-from typing import Any
 import unittest
 from unittest.mock import patch, Mock, PropertyMock
 from parameterized import parameterized
@@ -18,7 +17,7 @@ class TestGithubOrgClient(unittest.TestCase):
         ("abc",)
     ])
     @patch('client.get_json', return_value={"payload": True})
-    def test_org(self, org_name: str, mock_get_json: Mock) -> None:
+    def test_org(self, org_name, mock_get_json):
         '''
         this is the function
         '''
@@ -28,7 +27,7 @@ class TestGithubOrgClient(unittest.TestCase):
                 f"https://api.github.com/orgs/{org_name}")
 
     @patch.object(GithubOrgClient, 'org', new_callable=PropertyMock)
-    def test_public_repos_url(self, mock_org: PropertyMock) -> None:
+    def test_public_repos_url(self, mock_org):
         """Test that the result of _public_repos_url is the
         expected one based on the mocked payload"""
         payload = {"repos_url": "mocked_url"}
@@ -39,7 +38,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
     @patch('client.get_json', return_value=[
         {"name": "repo1"}, {"name": "repo2"}])
-    def test_public_repos(self, mock_get_json: Mock) -> None:
+    def test_public_repos(self, mock_get_json):
         """Test that the list of repos is what you
         expect from the chosen payload"""
         with patch.object(
@@ -57,11 +56,7 @@ class TestGithubOrgClient(unittest.TestCase):
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False)
     ])
-    def test_has_license(
-            self,
-            repo: Dict[str, Dict[str, str]],
-            license_key: str,
-            expected: bool) -> None:
+    def test_has_license(self, repo, license_key, expected):
         """Test that the has_license method returns the expected value"""
         test_client = GithubOrgClient("org_name")
         self.assertEqual(test_client.has_license(repo, license_key), expected)
